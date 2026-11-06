@@ -23,8 +23,8 @@ def scrape_via_api(base_url):
 
         page_number += 1
         has_next = html.get('has_next')
-    print(quotes_list)
-    print("\nEND OF QUOTES")
+
+    return quotes_list
 
 
 if __name__ == "__main__":
