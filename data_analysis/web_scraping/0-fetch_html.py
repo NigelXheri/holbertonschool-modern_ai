@@ -8,7 +8,7 @@ def fetch_html(url, headers=None, timeout=10):
     try:
         response = requests.get(url, headers=headers, timeout=timeout)
         response.raise_for_status()
-        return response.content
+        return response.text
 
     except Exception:
         return \
