@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 """Fetches a web page and returns its HTML as text via fetch_html()"""
 import requests
 
