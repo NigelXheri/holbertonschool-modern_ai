@@ -10,5 +10,5 @@ def chi_square_tests(df):
     p_values = {}
     for feature in categorical.columns.drop('Churn', errors='ignore'):
         table = pd.crosstab(df[feature], df['Churn'])
-        p_values[feature] = float(stats.chi2_contingency(table).pvalue)
+        p_values[feature] = stats.chi2_contingency(table).pvalue
     return p_values
