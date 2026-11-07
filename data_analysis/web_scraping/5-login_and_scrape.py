@@ -10,14 +10,14 @@ def login_and_scrape(login_url, user, pwd):
         login_page = session.get(login_url)
         login_page.raise_for_status()
         form = BeautifulSoup(login_page.text, 'html.parser')
-        token = form.find('input', attrs={'name': 'csrf_token'})
-        if token is None or not token.get('value'):
+        token = form.find('input', attrs={'name': 'csrf_token'})['value']
+        if not token:
             raise ValueError('Login form is missing a CSRF token')
 
         response = session.post(login_url, data={
             'username': user,
             'password': pwd,
-            'csrf_token': token['value'],
+            'csrf_token': token,
         })
         response.raise_for_status()
         result = BeautifulSoup(response.text, 'html.parser')
