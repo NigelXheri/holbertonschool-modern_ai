@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """Logs in to Quotes to Scrape and extracts quotes."""
-from urllib.parse import urljoin
-
 import requests
 from bs4 import BeautifulSoup
 
@@ -26,7 +24,7 @@ def login_and_scrape(login_url, user, pwd):
         if result.find('input', attrs={'name': 'csrf_token'}):
             raise ValueError('Login failed')
 
-        page = session.get(urljoin(login_url, '/'))
+        page = session.get(requests.compat.urljoin(login_url, '/'))
         page.raise_for_status()
 
     soup = BeautifulSoup(page.text, 'html.parser')
