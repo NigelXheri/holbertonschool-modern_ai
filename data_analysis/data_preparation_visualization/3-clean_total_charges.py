@@ -5,6 +5,9 @@
 def clean_total_charges(df, method='drop'):
     """Handle missing values in TotalCharges."""
 
+    if method in ('median', 'impute'):
+        df = df.copy()
+
     if method == 'drop':
         df = df.dropna(subset=['TotalCharges'])
 
