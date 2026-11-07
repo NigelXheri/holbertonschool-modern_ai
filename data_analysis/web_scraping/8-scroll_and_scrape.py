@@ -5,7 +5,7 @@ from selenium import webdriver
 
 
 def scroll_and_scrape(url, scroll_pause=2.0):
-    """Load all product cards and return unique products in page order."""
+    """Return unique products, waiting up to scroll_pause per scroll."""
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
     options.add_argument('--window-size=1920,1080')
@@ -17,10 +17,16 @@ def scroll_and_scrape(url, scroll_pause=2.0):
         height = driver.execute_script('return document.body.scrollHeight')
         while True:
             driver.execute_script('window.scrollTo(0, arguments[0])', height)
-            time.sleep(scroll_pause)
-            new_height = driver.execute_script(
-                'return document.body.scrollHeight'
-            )
+            # Continue as soon as the next batch increases the page height.
+            deadline = time.monotonic() + scroll_pause
+            while True:
+                new_height = driver.execute_script(
+                    'return document.body.scrollHeight'
+                )
+                remaining = deadline - time.monotonic()
+                if new_height > height or remaining <= 0:
+                    break
+                time.sleep(min(0.1, remaining))
             if new_height <= height:
                 break
             height = new_height
