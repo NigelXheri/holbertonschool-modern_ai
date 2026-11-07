@@ -8,23 +8,20 @@ def scrape_via_api(base_url):
     """Fetches quote data from all the quotes' API pages"""
 
     quotes_list = []
-    html = json.loads(fetch_html(base_url+"/api/quotes?page=1"))
-    has_next = html.get('has_next')
     page_number = 1
 
-    while has_next is not False:
-        html = json.loads(fetch_html(base_url+"/api/quotes?page="
-                                     + str(page_number)))
+    while True:
+        url = "{}/api/quotes?page={}".format(base_url, page_number)
+        html = json.loads(fetch_html(url))
         quotes = html['quotes']
         quotes_list.extend({'text': quote['text'],
                             'author': quote['author']['name'],
                             'tags': quote['tags']}
                            for quote in quotes)
 
+        if not html['has_next']:
+            return quotes_list
         page_number += 1
-        has_next = html.get('has_next')
-
-    return quotes_list
 
 
 if __name__ == "__main__":
