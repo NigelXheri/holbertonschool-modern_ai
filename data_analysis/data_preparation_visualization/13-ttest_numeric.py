@@ -13,5 +13,5 @@ def ttest_numeric(df):
     for feature in features:
         test = stats.ttest_ind(yes[feature].dropna(), no[feature].dropna(),
                                equal_var=False)
-        p_values[feature] = float(test.pvalue)
+        p_values[feature] = test.pvalue
     return p_values
