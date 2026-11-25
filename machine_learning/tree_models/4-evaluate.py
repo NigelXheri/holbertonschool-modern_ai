@@ -5,4 +5,6 @@ from sklearn import metrics
 
 def evaluate(true_labels, predicted_labels, class_names):
     """Generates a detailed classification report."""
-    return metrics.classification_report(y_true=true_labels, y_pred=predicted_labels, labels=class_names)
+    return metrics.classification_report(true_labels,
+                                         predicted_labels,
+                                         target_names=class_names)
