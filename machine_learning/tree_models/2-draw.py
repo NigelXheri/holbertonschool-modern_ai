@@ -5,4 +5,7 @@ from sklearn import tree
 
 def draw(clf, feature_names, class_names):
     """Displays the textual structure of a trained decision tree classifier."""
-    clf.export_text(feature_names=feature_names, class_names=class_names)
+    tree_rules = tree.export_text(clf,
+                                  feature_names=feature_names,
+                                  class_names=class_names)
+    print(tree_rules)
